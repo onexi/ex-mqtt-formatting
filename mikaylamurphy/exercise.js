@@ -10,6 +10,7 @@ exercise.ConnectToServer = function(address){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    client = mqtt.connect(address, 1883)
 };
 
 exercise.SubscribeToChannel = function(channel){
@@ -17,6 +18,10 @@ exercise.SubscribeToChannel = function(channel){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    client.subscribe(channel);
+    //client.on('connect', function(){
+    //    client.subscribe(channel);
+    //})
 };
 
 exercise.SendAsJSON = function(channel,obj){
@@ -25,14 +30,16 @@ exercise.SendAsJSON = function(channel,obj){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    client.publish(channel, JSON.stringify(obj))
 };
 
-exercise.ConvertBufferToString = function() {
+exercise.ConvertBufferToString = function(buffer) {
     // Convert a buffer used in some MQTT
     // broker messages to a string
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    return buffer.toString()
 };
 
 exercise.ProcessAsJSON = function() {
@@ -47,6 +54,11 @@ exercise.ProcessAsJSON = function() {
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    client.on('message', function(topic, message){
+        exercise.yourMessage = message.toString();
+        console.log(exercise.yourMessage)
+        exercise.yourObject = JSON.parse(exercise.yourMessage);
+    })
 };
 
 ;
@@ -56,6 +68,7 @@ exercise.Disconnect = function() {
     // -------------------------------
     // ---------- Your Code ----------
     // -------------------------------
+    client.end();
 };
 
 module.exports = exercise;
