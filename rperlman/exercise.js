@@ -7,28 +7,24 @@ exercise.yourObject = ""
 
 exercise.ConnectToServer = function(address){
     // Connect to the MQTT broker
-var client  = mqtt.connect(address);
+    client = mqtt.connect(address, 1883);
 };
 
 exercise.SubscribeToChannel = function(channel){
     // Subscribe to a channel
-    client.subscirbe(channel);
+    client.subscribe(channel);
 };
 
 exercise.SendAsJSON = function(channel,obj){
     // Publish an object to a channel
     // as a JSON string
-    // -------------------------------
-	// ---------- Your Code ----------
-	// -------------------------------
+    client.publish(channel, JSON.stringify(obj));
 };
 
 exercise.ConvertBufferToString = function() {
     // Convert a buffer used in some MQTT
     // broker messages to a string
-    // -------------------------------
-	// ---------- Your Code ----------
-	// -------------------------------
+    buffer.toString();
 };
 
 exercise.ProcessAsJSON = function() {
@@ -41,7 +37,10 @@ exercise.ProcessAsJSON = function() {
     // Also log the incoming message
     // to console.
     client.on('message', function(topic, message){
-        exercise.yourObject =??
+        var messageStr = message.toString();
+        console.log(messageStr);
+        console.log(topic);
+        exercise.yourObject = JSON.parse(messageStr);
     });
 };
 
