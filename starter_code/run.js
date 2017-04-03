@@ -21,7 +21,7 @@ server.on('clientConnected', function(client) {
 
 // fired when a message is received
 server.on('published', function(packet, client) {
-  if(packet.topic == "myChannel") console.log('Published : ', String.fromCharCode.apply(null, new Uint16Array(packet.payload)));
+  if(packet.topic == "TestChannel") console.log('Published : ', String.fromCharCode.apply(null, new Uint16Array(packet.payload)));
 });
 
 // fired when a client subscribes to a topic
