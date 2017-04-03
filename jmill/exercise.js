@@ -10,6 +10,8 @@ exercise.ConnectToServer = function(address){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    // JM added below:
+    client = mqtt.connect(address);
 };
 
 exercise.SubscribeToChannel = function(channel){
@@ -17,6 +19,11 @@ exercise.SubscribeToChannel = function(channel){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    // JM added below:
+    client.subscribe(channel);
+    // client.on('connect', function(){
+    //     client.subscribe(channel);
+    // });
 };
 
 exercise.SendAsJSON = function(channel,obj){
@@ -25,14 +32,19 @@ exercise.SendAsJSON = function(channel,obj){
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    // JM added here:
+    client.publish(channel,JSON.stringify(obj)); // sends object as JSON string to whatever channel specified
 };
 
-exercise.ConvertBufferToString = function() {
+exercise.ConvertBufferToString = function(buffer) {
     // Convert a buffer used in some MQTT
     // broker messages to a string
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    // JM added here:
+    // convert bytes back into strings
+    return buffer.toString();
 };
 
 exercise.ProcessAsJSON = function() {
@@ -47,8 +59,14 @@ exercise.ProcessAsJSON = function() {
     // -------------------------------
 	// ---------- Your Code ----------
 	// -------------------------------
+    // JM added here:
+    client.on('message', function(topic, message){
+        var messageStr = message.toString();
+        console.log(messageStr);
+        console.log(topic);
+        exercise.yourObject = JSON.parse(messageStr);
+    });
 };
-
 ;
 
 exercise.Disconnect = function() {
@@ -56,6 +74,8 @@ exercise.Disconnect = function() {
     // -------------------------------
     // ---------- Your Code ----------
     // -------------------------------
+    // JM added here:
+    client.end();
 };
 
 module.exports = exercise;
