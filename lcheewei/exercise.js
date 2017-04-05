@@ -10,23 +10,15 @@ exercise.ConnectToServer = function(address){
 };
 
 exercise.SubscribeToChannel = function(channel){
-    //client.on('connect', function () {
+ 
     client.subscribe(channel);
-        //client.publish('presence', 'Hello mqtt');
-    //});
- /*
-    client.on('message', function (topic, message) {
-        // message is Buffer 
-        console.log(message.toString());
-        client.end();
-    });*/
+ 
 };
 
 exercise.SendAsJSON = function(channel,obj){
-    //client.on('connect', function () {
-        //client.subscribe('presence');
+
     client.publish(channel, JSON.stringify(obj));
-    //});
+
 };
 
 exercise.ConvertBufferToString = function(buffer) {
